@@ -56,22 +56,22 @@ from eaxtension import <class_name>
   ```python
   time_data = timeE.getc(*<attr: str>)
   ```
-  >> #### attributes
-  >> - dow: return abbreviation of 'day of week'
-  >> - DOW: return 'day of week'
-  >> - dowN: return number of 'day of week'
-  >> - day: return 'day'
-  >> - mon: return abbreviation of 'month'
-  >> - MON: return 'month'
-  >> - monN: return number of 'month'
-  >> - year: return abbreviation of 'year'
-  >> - YEAR: return 'year'
-  >> - 24hr: return 'time' to 24hr format
-  >> - 12hr: return 'time' to 12hr format
-  >> - ampm: return 'AM/PM'
-  >> - min: return 'minute'
-  >> - sec: return 'second'
-  >> - week of year: return 'week of year'
-  >> - time all: return all of time data
-  >> - date all: return all of date data
-  >> - time and date: return all of time data and date data
+   - attributes
+     - dow: return abbreviation of 'day of week'
+     - DOW: return 'day of week'
+     - dowN: return number of 'day of week'
+     - day: return 'day'
+     - mon: return abbreviation of 'month'
+     - MON: return 'month'
+     - monN: return number of 'month'
+     - year: return abbreviation of 'year'
+     - YEAR: return 'year'
+     - 24hr: return 'time' to 24hr format
+     - 12hr: return 'time' to 12hr format
+     - ampm: return 'AM/PM'
+     - min: return 'minute'
+     - sec: return 'second'
+     - week of year: return 'week of year'
+     - time all: return all of time data
+     - date all: return all of date data
+     - time and date: return all of time data and date data
