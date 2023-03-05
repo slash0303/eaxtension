@@ -1,6 +1,11 @@
 import time
 import json
 
+def version():
+	version = "1.0.0"
+	last_edit = "add merge allY"
+	print(f"version: {version}. last edit: '{last_edit}'")
+
 # Log Class
 class LogE:
 	
@@ -24,7 +29,7 @@ class LogE:
 		Log_time = str(time.strftime(time_format, tim))
 		text_red = "\033[31m"
 		print(text_red + f"{Log_time} | [Error] {Log_name} : {Log_text}" + "\033[0m")
-	
+
 	# text green
 	@staticmethod
 	def g(Log_name, Log_text):
@@ -63,7 +68,7 @@ class jsonE:
 	
 	#json dumps
 	@staticmethod
-	def dumps(file_name: str, content:dict, **kwargs):
+	def dumps(file_name: str, content:dict, **attr):
 		json_ext = file_name[-5:]
 		if json_ext == ".json":
 			pass
@@ -74,21 +79,21 @@ class jsonE:
 			json.dump(content, json_file, ensure_ascii=False, indent=4)
 
 		try:
-			if kwargs["silent"] != True:
+			if attr["silent"] != True:
 				LogE.g("dumps json", f"'{file_name}' is dumped")
 		except KeyError:
 			LogE.g("dumps json", f"'{file_name}' is dumped")
 	
 	#json load
 	@staticmethod
-	def load(file_name, **kwargs):
+	def load(file_name, **attr):
 		json_ext = file_name[-5:]
 		if json_ext == ".json":
 			pass
 		else:
 			file_name = file_name + ".json"
 		try:
-			if kwargs["silent"] != True:
+			if attr["silent"] != True:
 				LogE.g("load json", f"'{file_name}' is loaded")
 		except KeyError:
 			LogE.g("load json", f"'{file_name}' is loaded")
@@ -99,7 +104,7 @@ class jsonE:
 
 	#json merge
 	@staticmethod
-	def merge(file_name: str, content: dict, **kwargs):
+	def merge(file_name: str, content: dict, **attr):
 		json_ext = file_name[-5:]
 		if json_ext == ".json":
 			pass
@@ -110,29 +115,38 @@ class jsonE:
 
 			try:
 				json_data = json.load(json_file)
+				LogE.g("merge json", f"'{file_name}' is dumped by content.")
 			except:
 				LogE.e("error(JSONDecodeError)", f"'{file_name}' has problem. please re-dump '{file_name}'.")
 				return None
 
 			content_keys = content.keys()
-			for key in content_keys:
-				try:
-					if json_data[key] == None:
+			try:
+				if attr["allY"] == True:
+					for key in content_keys:
 						json_data[key] = content[key]
-					elif json_data[key] == content[key]:
-						pass
 					else:
-						yn = input(f"key '{key}' is already exist.\n\n[{file_name}]\n\"{key}\" : {json_data[key]}\n\n[input data]\n\"{key}\" : {content[key]}\n\nwould you want to change this? [y/N] ")
-						print("---------")
-						if yn == "Y" or yn == "y":
+						raise KeyError
+			except KeyError:
+				for key in content_keys:
+					try:
+						if json_data[key] == None:
 							json_data[key] = content[key]
-						else:
+						elif json_data[key] == content[key]:
 							pass
-				except KeyError:
-					json_data[key] = content[key]
+						else:
+							yn = input(f"key '{key}' is already exist.\n\n[{file_name}]\n\"{key}\" : {json_data[key]}\n\n[input data]\n\"{key}\" : {content[key]}\n\nwould you want to change this? [y/N] ")
+							print("---------")
+							if yn == "Y" or yn == "y":
+								json_data[key] = content[key]
+								LogE.g("merge json", "content changed completly.")
+							else:
+								LogE.g("merge json", "content doesn't changed.")
+					except KeyError:
+						json_data[key] = content[key]
 
-				with open(file_name, "w", encoding="utf-8") as json_file:
-					json.dump(json_data, json_file, ensure_ascii=False, indent=4)
+					with open(file_name, "w", encoding="utf-8") as json_file:
+						json.dump(json_data, json_file, ensure_ascii=False, indent=4)
 
 # time class
 class timeE:
@@ -157,7 +171,7 @@ class timeE:
 						   "date all": "%x", "time and date": "%c", }
 
 			form = ""
-			for x in (time_type):
+			for x in time_type:
 				form = form + "-" + format_dict[x]
 			form = form[1:]
 
