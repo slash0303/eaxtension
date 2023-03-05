@@ -44,6 +44,7 @@ class LogE:
 		print(bg_red + f"{Log_time} | [Error] {Log_name} : {Log_text}" + "\033[0m")
 
 	# type check method
+	@staticmethod
 	def t(Log_name, Log_text):
 		tim = time.localtime(time.time())
 		time_format = "%Y-%m-%d %H:%M:%S"
@@ -61,32 +62,79 @@ class LogE:
 class jsonE:
 	
 	#json dumps
-	def dumps(file_name: str, content, **kwargs):
+	@staticmethod
+	def dumps(file_name: str, content:dict, **kwargs):
 		json_ext = file_name[-5:]
-		
 		if json_ext == ".json":
 			pass
 		else:
 			file_name = file_name + ".json"
 			
 		with open(file_name, "w", encoding="utf-8") as json_file:
-			json.dump(content, json_file, ensure_ascii = False, indent=4)
-		LogE.g("dumps json", f"'{file_name}' is dumped")
+			json.dump(content, json_file, ensure_ascii=False, indent=4)
+
+		try:
+			if kwargs["silent"] != True:
+				LogE.g("dumps json", f"'{file_name}' is dumped")
+		except KeyError:
+			LogE.g("dumps json", f"'{file_name}' is dumped")
 	
 	#json load
-	def load(file_name):
+	@staticmethod
+	def load(file_name, **kwargs):
 		json_ext = file_name[-5:]
-		
 		if json_ext == ".json":
 			pass
 		else:
 			file_name = file_name + ".json"
-			
-		LogE.g("load json", f"'{file_name}' is loaded")
+		try:
+			if kwargs["silent"] != True:
+				LogE.g("load json", f"'{file_name}' is loaded")
+		except KeyError:
+			LogE.g("load json", f"'{file_name}' is loaded")
+
 		with open(file_name, "r") as json_file:
 			content = json.load(json_file)
 			return content
-			
+
+	#json merge
+	@staticmethod
+	def merge(file_name: str, content: dict, **kwargs):
+		json_ext = file_name[-5:]
+		if json_ext == ".json":
+			pass
+		else:
+			file_name = file_name + ".json"
+
+		with open(file_name, "r") as json_file:
+
+			try:
+				json_data = json.load(json_file)
+			except:
+				LogE.e("error(JSONDecodeError)", f"'{file_name}' has problem. please re-dump '{file_name}'.")
+				return None
+
+			content_keys = content.keys()
+			for key in content_keys:
+				try:
+					if json_data[key] == None:
+						json_data[key] = content[key]
+					elif json_data[key] == content[key]:
+						pass
+					else:
+						yn = input(f"key '{key}' is already exist.\n\n[{file_name}]\n\"{key}\" : {json_data[key]}\n\n[input data]\n\"{key}\" : {content[key]}\n\nwould you want to change this? [y/N] ")
+						print("---------")
+						if yn == "Y" or yn == "y":
+							json_data[key] = content[key]
+						else:
+							pass
+				except KeyError:
+					json_data[key] = content[key]
+
+				with open(file_name, "w", encoding="utf-8") as json_file:
+					json.dump(json_data, json_file, ensure_ascii=False, indent=4)
+
+# time class
 class timeE:
 	
 	# formated time text
