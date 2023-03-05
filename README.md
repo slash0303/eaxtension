@@ -38,12 +38,21 @@ from eaxtension import <class_name>
   ### modes
   - read only mode
   ```python
-  jsonE.load(<file_name: str>)
+  json_content = jsonE.load(<file_name: str>, **<attr>)
   ```
   - dump mode
   ```python
-  json_content = jsonE.dumps(<file_name: str>, <dump_content: dict>)
+  jsonE.dumps(<file_name: str>, <dump_content: dict>, **<attr>)
   ```
+  
+  - merge mode
+  ```python
+  jsonE.merge(<file_name: str>, <merge_content: dict>)
+  ```
+  
+  - attributes
+    - silent = <bool>
+    > if silent is True, jsonE doesn't print progress Log.
   
 > ### timeE
   
