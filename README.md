@@ -9,6 +9,12 @@ method encapsulator for Python
 from eaxtension import <class_name>
 ```
 
+## Version check
+```python
+import eaxtension as ea
+ea.version()
+```
+
 
 ## Class list
 - LogE: print logging message on your console.
@@ -51,8 +57,12 @@ from eaxtension import <class_name>
   ```
   
   - attributes
-    - `silent = <bool>`
-    > if silent is True, jsonE doesn't print progress Log.
+    - only can use in `load` and `dumps` method
+      - `silent = <bool>`
+      > if silent is True, jsonE doesn't print progress Log.
+    - only can use in `merge` method
+      - `allY = <bool>`
+      > if allY is True, `merge` method will act like `dumps` method.
   
 > ### timeE
   
