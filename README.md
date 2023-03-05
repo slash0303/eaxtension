@@ -51,7 +51,7 @@ from eaxtension import <class_name>
   ```
   
   - attributes
-    - silent = <bool>
+    - `silent = <bool>`
     > if silent is True, jsonE doesn't print progress Log.
   
 > ### timeE
