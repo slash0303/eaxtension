@@ -112,22 +112,21 @@ class jsonE:
 			file_name = file_name + ".json"
 
 		with open(file_name, "r") as json_file:
-
 			try:
 				json_data = json.load(json_file)
-				LogE.g("merge json", f"'{file_name}' is dumped by content.")
-			except:
+			except json.JSONDecodeError:
 				LogE.e("error(JSONDecodeError)", f"'{file_name}' has problem. please re-dump '{file_name}'.")
-				return None
-
 			content_keys = content.keys()
 			try:
 				if attr["allY"] == True:
 					for key in content_keys:
 						json_data[key] = content[key]
-					else:
-						raise KeyError
+						LogE.g("merge json", f"'{file_name}' is dumped/merged by content.")
+				else:
+					pass
 			except KeyError:
+				pass
+			finally:
 				for key in content_keys:
 					try:
 						if json_data[key] == None:
@@ -144,7 +143,6 @@ class jsonE:
 								LogE.g("merge json", "content doesn't changed.")
 					except KeyError:
 						json_data[key] = content[key]
-
 					with open(file_name, "w", encoding="utf-8") as json_file:
 						json.dump(json_data, json_file, ensure_ascii=False, indent=4)
 
