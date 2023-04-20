@@ -175,6 +175,6 @@ class timeE:
 
 			LogE.t("text", form)
 
-			output = str(time.strftime(form, tim))\
+			output = str(time.strftime(form, tim))
 
 			return output
