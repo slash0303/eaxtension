@@ -14,13 +14,27 @@ class LogE:
     time_format = "%Y-%m-%d %H:%M:%S"
     Log_time = str(time.strftime(time_format, tim))
 
+    # sav feature
+    @staticmethod
+    def sav(target_file:str, log_name:str, log_data:str):
+        log_string = f"\n{timeE.geta()} | {log_name} | {log_data}"
+        with open(target_file, "a", encoding="utf-8") as log_file:
+            log_file.write(log_string)
+
     # normal log
     @staticmethod
-    def d(Log_name, Log_text):
+    def d(Log_name, Log_text, **attr):
         tim = time.localtime(time.time())
         time_format = "%Y-%m-%d %H:%M:%S"
         Log_time = str(time.strftime(time_format, tim))
         print(f"{Log_time} | {Log_name} : {Log_text}")
+
+        try:
+            if attr["target_file"]:
+                LogE.sav(attr["target_file"], Log_name, Log_text)
+        except:
+            pass
+
 
     # text red (Error Log)
     @staticmethod
@@ -64,11 +78,6 @@ class LogE:
         Log_time = str(time.strftime(time_format, tim))
         print(f"{Log_time} | {Log_name} : {type(Log_text)}")
 
-    @staticmethod
-    def sav(target_file:str, log_name:str, log_data:str):
-        log_string = f"{timeE.geta()} | {log_name} | {log_data}"
-        with open(target_file, "a", encoding="utf-8") as log_file:
-            log_file.write(log_string)
 
 
 # json Class
@@ -190,3 +199,8 @@ class timeE:
         output = str(time.strftime(form, tim))
 
         return output
+
+
+
+if __name__ == "__main__":
+    LogE.d("hello", "fuckyou", target_file="./data/test.txt")
